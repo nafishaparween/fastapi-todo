@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 40px;
+}
+
+.container {
+    width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    width: 75%;
+    padding: 10px;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+}
+
+li {
+    margin: 10px 0;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+#task-list li {
+    margin: 10px 0;
+}
+
+
+#task-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.task-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
