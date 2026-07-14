@@ -60,39 +60,35 @@ function loadTasks() {
         list.innerHTML = "";
 
 
-        tasks.forEach((task, index) => {
+        tasks.forEach((task) => {
 
 
             const li = document.createElement("li");
 
+li.innerHTML = `
+<div class="task-row">
 
-            li.innerHTML = `
+    <input
+        type="checkbox"
+        ${task.completed ? "checked" : ""}
+        onchange="toggleTask(${task.id}, '${task.title}', this.checked)"
+    >
 
-    <div class="task-row">
+    <span class="${task.completed ? 'completed' : ''}">
+        ${task.title}
+    </span>
 
-            <input
-                type="checkbox"
-                ${task.completed ? "checked" : ""}
-                onchange="toggleTask(${index})"
-            >
+    <button onclick="updateTask(${task.id}, '${task.title}', ${task.completed})">
+        Update
+    </button>
 
-        <span class="${task.completed ? 'completed' : ''}">
-            ${task.title}
-        </span>
+    <button onclick="deleteTask(${task.id})">
+        Delete
+    </button>
 
-
-        <button onclick="updateTask(${index})">
-            Update
-        </button>
-
-
-        <button onclick="deleteTask(${index})">
-            Delete
-        </button>
-
-    </div>
-
+</div>
 `;
+
             list.appendChild(li);
 
 
@@ -126,18 +122,14 @@ function deleteTask(id) {
 }
 
 
-function updateTask(id) {
+function updateTask(id, oldTitle, completed) {
 
-    const newTitle = prompt("Enter new task name");
+    const newTitle = prompt("Enter new task name", oldTitle);
 
-
-    if (newTitle === null || newTitle === "") {
+    if (newTitle === null || newTitle.trim() === "") {
         return;
     }
 
-    const completed =
-    document.querySelectorAll(".task-row input")[id].checked;
-
     fetch(`/tasks/${id}`, {
 
         method: "PUT",
@@ -147,34 +139,18 @@ function updateTask(id) {
         },
 
         body: JSON.stringify({
-
             title: newTitle,
-
             completed: completed
-
         })
 
     })
-
-
     .then(response => response.json())
-
-
-    .then(data => {
-
+    .then(() => {
         loadTasks();
-
     });
 
 }
-
-function toggleTask(id) {
-
-    const title =
-        document.querySelectorAll(".task-row span")[id].innerText;
-
-    const completed =
-        document.querySelectorAll(".task-row input")[id].checked;
+function toggleTask(id, title, completed) {
 
     fetch(`/tasks/${id}`, {
 
@@ -185,21 +161,14 @@ function toggleTask(id) {
         },
 
         body: JSON.stringify({
-
             title: title,
-
             completed: completed
-
         })
 
     })
-
     .then(response => response.json())
-
     .then(() => {
-
         loadTasks();
-
     });
 
 }
